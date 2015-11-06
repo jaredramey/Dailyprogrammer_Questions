@@ -1,0 +1,70 @@
+https://www.reddit.com/r/dailyprogrammer/comments/3ltee2/20150921_challenge_233_easy_the_house_that_ascii/
+dailyprogrammer question #233 (easy)
+
+Challenge:
+	Take in a ASCII blueprint of '*' and output a result
+		Input:							Output:
+			*					            A
+		   ***							   / \
+		 ******				      A     A +---+ A
+						         / \   / \|   |/ \
+							    /   \ +---+   +---+ A
+							   /     \| o         |/ \
+							  +-------+           +---+
+							  |     o      | |      o | 
+							  +-----------------------+
+
+Personal Notes:
+	- Bottom input was 6 characters long and output was 26 characters
+		--> multiply by 4 for how long the bottom should be?    X  Resolved
+		--> or should I just figure out length based on towers? X  Resolved
+			=> This concern resolved via comment author left
+			   Each '*' should represent a box +---+
+											   |   |
+											   +---+
+		
+	- Side input was 3 characters high and output was 9 characters
+		--> multiply by 3 for how many lines it should take up?
+			=> This concern resolved via comment author left
+			   Each '*' should represent a box +---+
+											   |   |
+											   +---+
+		
+	- Challenge dictates that if there is an empty space not taken up by a door '| |'
+	  then there should be a 50% chance of a window popping up 'o'
+	  
+	- Need to create a box for every '*' given in input
+		--> Search given lines (load from a file?) for any '*' and ouput a box for each one to start
+		
+Process to solve problem:
+	Step One:
+	-> Create an input method
+	-> Search input for each '*'
+	-> Output a box for each '*'
+	
+	Step Two:
+	-> If two boxes are touching remove a side
+	-> If a box is surrounded on two sides then remove walls
+	-> If a box is surrounded on three sides then remove the walls
+	-> If a box is surrounded on all sides then remove the box
+	
+	Step Three:
+	-> If a box has nothing on top of it then add a roof
+							Roof:   A 
+								   / \
+	-> If a box is touching another box and nothing is above both then add an extended roof
+						Ext Roof:   A 
+								   / \
+								  /   \
+								 /     \
+	-> Search for each empty space and set a chance to fill it out
+		=> Place one door on the building '| |'
+			--> flag for if a door has been set
+			--> if flag = true then skip door drawing step
+		=> If a space isn't occupied by a door then 50% chance of putting a window there 'o'
+			--> Create a % chance for the space being filled out
+			--> If the space is to be filled run possible window placing
+				==> Check if space has '|' on both sides (Doors do not contain windows)
+				
+Pseudo Code:
+
